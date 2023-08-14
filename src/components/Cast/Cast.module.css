@@ -1,0 +1,9 @@
+.cast {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.cast li {
+  flex: 33%;
+}

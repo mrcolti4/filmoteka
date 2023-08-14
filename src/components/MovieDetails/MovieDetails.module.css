@@ -1,0 +1,51 @@
+.movie_item {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 20px;
+}
+
+.movie_descr {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.movie_title {
+  font-size: 32px;
+}
+
+.movie_score {
+  font-size: 20px;
+}
+
+.movie_score span {
+  font-weight: 600;
+}
+
+.movie_details h3 {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+.movie_details p {
+  font-size: 20px;
+  line-height: 1.2;
+}
+
+.movie_genres {
+  display: flex;
+  gap: 10px;
+}
+
+.movie_genre {
+  padding: 10px;
+  border: 1px solid #000;
+}
+
+.movie_back_link {
+  font-size: 20px;
+  gap: 5px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}

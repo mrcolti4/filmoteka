@@ -1,0 +1,8 @@
+.reviews_item {
+  margin: 40px 0;
+  max-width: 70%;
+}
+.reviews_item_title {
+  font-weight: 700;
+  margin-bottom: 10px;
+}
