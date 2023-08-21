@@ -63,3 +63,5 @@ export const StyledSlide = styled(SwiperSlide)`
     }
   }
 `;
+
+StyledSlide.displayName = 'SwiperSlide';

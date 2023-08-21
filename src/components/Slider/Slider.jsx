@@ -43,7 +43,7 @@ const Slider = () => {
             }) => {
               return (
                 <StyledSlide
-                  key={id}
+                  key={title}
                   $imgUrl={`${IMAGE_PATH}/original${backdrop_path}`}
                 >
                   <div className="slide__descr container">
