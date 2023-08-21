@@ -50,3 +50,17 @@ a {
 .home_header {
   margin-top: 20px;
 }
+
+.movie_genres {
+  display: flex;
+  gap: 10px;
+}
+
+.movie_genre {
+  padding: 10px;
+  border: 1px solid #000;
+}
+
+.movie_genre.light {
+  border-color: #fff;
+}

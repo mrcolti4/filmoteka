@@ -3,9 +3,9 @@ import { Routes, Route } from 'react-router-dom';
 
 import Loader from './Loader/Loader';
 import Layout from 'layouts/Layout';
-import HomePage from 'pages/HomePage';
+import HomePage from 'pages/HomePage/HomePage';
 import MoviesPage from 'pages/MoviesPage';
-import ErrorPage from 'pages/ErrorPage';
+import ErrorPage from 'pages/ErrorPage/ErrorPage';
 
 const MoviesDetailsPage = lazy(() => import('pages/MoviesDetailsPage'));
 

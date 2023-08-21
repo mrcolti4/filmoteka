@@ -3,21 +3,22 @@ import { useEffect } from 'react';
 
 import MovieList from 'components/MovieList/MovieList';
 
-import { getMoviesByQuery } from 'js/API_requests/getMoviesByQuery';
-import { searchParamKey } from 'js/consts';
+import { searchParamKey } from 'js/utils/consts';
 import { useData } from 'js/useData/useData';
-import ErrorPage from './ErrorPage';
+import ErrorPage from './ErrorPage/ErrorPage';
+import MovieAPI from 'js/API_requests/MoviesAPI';
+import { SortAPI } from 'js/utils/SortAPI/SortAPI';
 
 const MoviesPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const search = searchParams.get(searchParamKey);
   const { data, isFetching, error, getData } = useData();
 
-  const moviesList = data;
-
   useEffect(() => {
-    getData(getMoviesByQuery(search));
+    getData(MovieAPI.getMoviesByQuery(search));
   }, [getData, search]);
+
+  const moviesList = SortAPI.sortMovieByVoteCount(data);
 
   const onSearch = e => {
     e.preventDefault();

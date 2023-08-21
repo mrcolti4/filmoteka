@@ -1,4 +1,3 @@
-import { getMovieDetail } from 'js/API_requests/getMovieDetail';
 import { useData } from 'js/useData/useData';
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
@@ -7,13 +6,14 @@ import { motion } from 'framer-motion';
 import styled from './Reviews.module.css';
 import { childVariants, routeVariants } from 'js/AnimatedList/AnimatedList';
 import Loader from 'components/Loader/Loader';
+import MovieAPI from 'js/API_requests/MoviesAPI';
 const Reviews = () => {
   const { movieId } = useParams();
   const url = `https://api.themoviedb.org/3/movie/${movieId}/reviews`;
   const { data, isFetching, error, getData } = useData();
 
   useEffect(() => {
-    getData(getMovieDetail(url));
+    getData(MovieAPI.getMovieDetail(url));
   }, [getData, url]);
   return (
     <>

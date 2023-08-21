@@ -1,0 +1,12 @@
+.home__filter_wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 20px 0;
+}
+
+.home__filters {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}

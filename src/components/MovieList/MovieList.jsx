@@ -1,35 +1,81 @@
 import clsx from 'clsx';
 import { Link, useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { AiFillStar } from 'react-icons/ai';
+import { motion } from 'framer-motion';
 
 import Loader from 'components/Loader/Loader';
 
 import styled from './MovieList.module.css';
+import { routeVariants } from 'js/AnimatedList/AnimatedList';
 
 const MovieList = ({ movies = [], isFetching = false }) => {
   const location = useLocation();
   const showLoader = isFetching;
   const showMovies = movies?.length > 0;
-
   return (
-    <ul className={clsx(styled.movie_list)}>
+    <motion.ul
+      variants={routeVariants}
+      initial="initial"
+      animate="final"
+      className={clsx(styled.movie__list)}
+    >
       {showLoader && <Loader />}
       {showMovies &&
         !showLoader &&
-        movies.map(({ title, id, name }) => {
-          return (
-            <li className="movie_item" key={id}>
-              <Link
-                className={clsx(styled.movie_link)}
-                to={`/movies/${id}`}
-                state={{ from: location }}
-              >
-                {title ?? name}
-              </Link>
-            </li>
-          );
-        })}
-    </ul>
+        movies.map(
+          ({
+            title,
+            id,
+            name,
+            poster_path,
+            vote_average,
+            release_date,
+            first_air_date,
+          }) => {
+            return (
+              <li className={clsx(styled.movie__item)} key={id}>
+                <Link
+                  className={clsx(styled.movie__link, styled.movie__thumb)}
+                  to={`/movies/${id}`}
+                  state={{ from: location }}
+                >
+                  <img
+                    src={
+                      poster_path &&
+                      `https://image.tmdb.org/t/p/w500${poster_path}`
+                    }
+                    alt={`Poster: ${title}`}
+                    className={clsx(styled.movie__poster)}
+                  />
+                </Link>
+                <div className={clsx(styled.movie__info)}>
+                  <div className={clsx(styled.movie__title)}>
+                    <Link
+                      className={clsx(styled.movie__link)}
+                      to={`/movies/${id}`}
+                      state={{ from: location }}
+                    >
+                      {title ?? name}
+                    </Link>
+                  </div>
+                  <div className={clsx(styled.movie__release)}>
+                    {release_date
+                      ? release_date?.split('-')[0]
+                      : first_air_date?.split('-')[0]}
+                  </div>
+                </div>
+                <div className={clsx(styled.movie__rating)}>
+                  <div className={clsx(styled.rating__inner)}>
+                    <AiFillStar fontSize={'28px'} />
+                    {vote_average.toFixed(1)}
+                  </div>
+                </div>
+              </li>
+            );
+          }
+        )}
+    </motion.ul>
   );
 };
 

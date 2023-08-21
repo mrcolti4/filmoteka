@@ -1,9 +1,10 @@
 import clsx from 'clsx';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import { TiArrowBackOutline } from 'react-icons/ti';
 import PropTypes from 'prop-types';
 
 import styled from './MovieDetails.module.css';
+import { imageExists } from 'js/utils/ImageNotFound/ImageNotFound';
 
 const MovieDetails = ({ data, backLinkHref }) => {
   const { title, poster_path, vote_average, overview, genres } = data;
@@ -17,9 +18,7 @@ const MovieDetails = ({ data, backLinkHref }) => {
       {Boolean(data) && (
         <div className={clsx(styled.movie_item)}>
           <img
-            src={
-              poster_path && `https://image.tmdb.org/t/p/w500/${poster_path}`
-            }
+            src={poster_path && `https://image.tmdb.org/t/p/w500${poster_path}`}
             alt={title && title}
             className="movie_poster"
           />
@@ -34,9 +33,9 @@ const MovieDetails = ({ data, backLinkHref }) => {
             </div>
             <div className={clsx(styled.movie_details)}>
               <h3>Genres</h3>
-              <p className={clsx(styled.movie_genres)}>
+              <p className="movie_genres">
                 {genres?.map(({ name }, index) => (
-                  <a key={index} href="_" className={clsx(styled.movie_genre)}>
+                  <a key={index} href="_" className="movie_genre">
                     {name}
                   </a>
                 ))}
@@ -45,16 +44,24 @@ const MovieDetails = ({ data, backLinkHref }) => {
           </div>
         </div>
       )}
-      <ul>
-        <li>
-          <Link to="cast" state={{ from: backLinkHref }}>
+      <ul className={clsx(styled.details__list)}>
+        <li className={clsx(styled.details__item)}>
+          <NavLink
+            className={clsx(styled.details__link)}
+            to="cast"
+            state={{ from: backLinkHref }}
+          >
             Cast
-          </Link>
+          </NavLink>
         </li>
-        <li>
-          <Link to="reviews" state={{ from: backLinkHref }}>
+        <li className={clsx(styled.details__item)}>
+          <NavLink
+            className={clsx(styled.details__link)}
+            to="reviews"
+            state={{ from: backLinkHref }}
+          >
             Reviews
-          </Link>
+          </NavLink>
         </li>
       </ul>
     </>

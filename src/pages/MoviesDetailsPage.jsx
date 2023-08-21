@@ -1,19 +1,16 @@
 import { Suspense, lazy, useEffect } from 'react';
 import { Route, Routes, useLocation, useParams } from 'react-router-dom';
-import { AnimatePresence } from 'framer-motion';
 
 import Loader from 'components/Loader/Loader';
 import MovieDetails from 'components/MovieDetails/MovieDetails';
-import ErrorPage from './ErrorPage';
+import ErrorPage from './ErrorPage/ErrorPage';
 
-import { getSingleMovie } from 'js/API_requests/getSingleMovie';
 import { useData } from 'js/useData/useData';
+import MovieAPI from 'js/API_requests/MoviesAPI';
+import { LocationProvider } from 'js/utils/LocationProvider/LocationProvider';
+
 const Cast = lazy(() => import('components/Cast/Cast'));
 const Reviews = lazy(() => import('components/Reviews/Reviews'));
-
-const LocationProvider = ({ children }) => {
-  return <AnimatePresence>{children}</AnimatePresence>;
-};
 
 const RoutesWithAnimation = () => {
   const location = useLocation();
@@ -37,7 +34,7 @@ const MoviesDetailsPage = () => {
 
   useEffect(() => {
     if (!movieId) return;
-    getData(getSingleMovie(movieId));
+    getData(MovieAPI.getSingleMovie(movieId));
   }, [getData, movieId]);
 
   if (error?.message) {

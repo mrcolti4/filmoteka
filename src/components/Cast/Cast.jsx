@@ -4,11 +4,12 @@ import { useParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
 
 import Loader from 'components/Loader/Loader';
-import { getMovieDetail } from 'js/API_requests/getMovieDetail';
 import { useData } from 'js/useData/useData';
 
 import styled from './Cast.module.css';
 import { childVariants, routeVariants } from 'js/AnimatedList/AnimatedList';
+import MovieAPI from 'js/API_requests/MoviesAPI';
+import { imageExists } from 'js/utils/ImageNotFound/ImageNotFound';
 
 const Cast = () => {
   const { movieId } = useParams();
@@ -19,7 +20,7 @@ const Cast = () => {
   const { cast } = data ?? {};
 
   useEffect(() => {
-    getData(getMovieDetail(url));
+    getData(MovieAPI.getMovieDetail(url));
   }, [getData, url]);
 
   return (
@@ -39,12 +40,10 @@ const Cast = () => {
               return (
                 <motion.li variants={childVariants} key={id}>
                   <img
-                    src={
-                      profile_path
-                        ? `https://image.tmdb.org/t/p/w500/${profile_path}`
-                        : 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png'
-                    }
+                    onError={imageExists}
+                    src={`https://image.tmdb.org/t/p/w500${profile_path}`}
                     alt={original_name}
+                    className={clsx(styled.cast__img)}
                   />
                   <p>{original_name}</p>
                   <p>Character: {character}</p>
