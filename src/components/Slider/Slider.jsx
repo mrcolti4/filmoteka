@@ -30,55 +30,59 @@ const Slider = () => {
   const { results: movieList } = data ?? {};
   return (
     <section className="slider">
-      <Swiper modules={[Autoplay]} slidesPerView={1} autoplay={true}>
-        {movieList?.map(
-          ({
-            id,
-            original_title,
-            title,
-            overview,
-            backdrop_path,
-            genre_ids,
-          }) => {
-            return (
-              <StyledSlide
-                key={id}
-                $imgUrl={`${IMAGE_PATH}/original${backdrop_path}`}
-              >
-                <div className="slide__descr container">
-                  <h2 className="slide__title">{title}</h2>
+      {movieList && (
+        <Swiper modules={[Autoplay]} slidesPerView={1} autoplay={true}>
+          {movieList?.map(
+            ({
+              id,
+              original_title,
+              title,
+              overview,
+              backdrop_path,
+              genre_ids,
+            }) => {
+              return (
+                <StyledSlide
+                  key={id}
+                  $imgUrl={`${IMAGE_PATH}/original${backdrop_path}`}
+                >
+                  <div className="slide__descr container">
+                    <h2 className="slide__title">{title}</h2>
 
-                  {original_title !== title && (
-                    <h3 className="slide__original_title">{original_title}</h3>
-                  )}
-
-                  <p className="slide__text">{overview}</p>
-                  <ul className="movie_genres slide__genres">
-                    {getSingleGenre(allGenres, genre_ids).map(
-                      (genre, index) => {
-                        return (
-                          <li key={index} className="movie_genre light">
-                            {genre}
-                          </li>
-                        );
-                      }
+                    {original_title !== title && (
+                      <h3 className="slide__original_title">
+                        {original_title}
+                      </h3>
                     )}
-                  </ul>
-                  <div>
-                    <Link
-                      className="slide__details-link"
-                      to={`/movies/${id}`}
-                      state={{ from: location }}
-                    >
-                      Movie details <TbArrowNarrowRight fontSize={'36px'} />
-                    </Link>
+
+                    <p className="slide__text">{overview}</p>
+                    <ul className="movie_genres slide__genres">
+                      {getSingleGenre(allGenres, genre_ids).map(
+                        (genre, index) => {
+                          return (
+                            <li key={index} className="movie_genre light">
+                              {genre}
+                            </li>
+                          );
+                        }
+                      )}
+                    </ul>
+                    <div>
+                      <Link
+                        className="slide__details-link"
+                        to={`/movies/${id}`}
+                        state={{ from: location }}
+                      >
+                        Movie details <TbArrowNarrowRight fontSize={'36px'} />
+                      </Link>
+                    </div>
                   </div>
-                </div>
-              </StyledSlide>
-            );
-          }
-        )}
-      </Swiper>
+                </StyledSlide>
+              );
+            }
+          )}
+        </Swiper>
+      )}
     </section>
   );
 };
