@@ -27,7 +27,7 @@ const Slider = () => {
     getGenres();
   }, [getData]);
 
-  const { dates, results: movieList } = data ?? {};
+  const { results: movieList } = data ?? {};
   return (
     <section className="slider">
       <Swiper modules={[Autoplay]} slidesPerView={1} autoplay={true}>

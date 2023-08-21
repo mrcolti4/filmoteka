@@ -4,7 +4,6 @@ import { TiArrowBackOutline } from 'react-icons/ti';
 import PropTypes from 'prop-types';
 
 import styled from './MovieDetails.module.css';
-import { imageExists } from 'js/utils/ImageNotFound/ImageNotFound';
 
 const MovieDetails = ({ data, backLinkHref }) => {
   const { title, poster_path, vote_average, overview, genres } = data;
