@@ -5,8 +5,8 @@ export const getSingleGenre = (allGenres = [], movieGenres = []) => {
     allGenres?.map(obj => {
       if (obj.id === id) {
         genresName.push(obj.name);
-        return;
       }
+      return 0;
     });
   });
 
