@@ -4,16 +4,13 @@ import PropTypes from 'prop-types';
 import { AiFillStar } from 'react-icons/ai';
 import { motion } from 'framer-motion';
 
-import Loader from 'components/Loader/LoaderScreen';
-
 import styled from './MovieList.module.css';
 import { childVariants, routeVariants } from 'js/AnimatedList/AnimatedList';
-import { useEffect } from 'react';
 
 const MovieList = ({ movies = [], isFetching = false }) => {
   const location = useLocation();
-  const showLoader = isFetching;
   const showMovies = movies?.length > 0;
+
   return (
     <>
       <motion.ul

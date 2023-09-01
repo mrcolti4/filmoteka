@@ -4,8 +4,6 @@ import clsx from 'clsx';
 import MovieList from 'components/MovieList/MovieList';
 import Slider from 'components/Slider/Slider';
 
-import MovieAPI from 'js/API_requests/MoviesAPI';
-import { useData } from 'js/useData/useData';
 import { SortAPI } from 'js/utils/SortAPI/SortAPI';
 
 import styled from './HomePage.module.css';
@@ -46,7 +44,7 @@ const HomePage = () => {
   };
 
   const moviesList = SortAPI.sortMovieByRating(trendMovies);
-
+  console.log(error);
   return (
     <main>
       <Slider />
