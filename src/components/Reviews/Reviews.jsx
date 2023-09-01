@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 
 import styled from './Reviews.module.css';
 import { childVariants, routeVariants } from 'js/AnimatedList/AnimatedList';
-import Loader from 'components/Loader/Loader';
+import Loader from 'components/Loader/LoaderScreen';
 import MovieAPI from 'js/API_requests/MoviesAPI';
 const Reviews = () => {
   const { movieId } = useParams();

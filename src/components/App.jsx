@@ -1,7 +1,7 @@
 import { Suspense, lazy } from 'react';
 import { Routes, Route } from 'react-router-dom';
 
-import Loader from './Loader/Loader';
+import Loader from './Loader/LoaderScreen';
 import Layout from 'layouts/Layout';
 import HomePage from 'pages/HomePage/HomePage';
 import MoviesPage from 'pages/MoviesPage';

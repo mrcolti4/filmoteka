@@ -1,22 +1,31 @@
 import { useSearchParams } from 'react-router-dom';
 import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import MovieList from 'components/MovieList/MovieList';
+import ErrorPage from './ErrorPage/ErrorPage';
 
 import { searchParamKey } from 'js/utils/consts';
-import { useData } from 'js/useData/useData';
-import ErrorPage from './ErrorPage/ErrorPage';
-import MovieAPI from 'js/API_requests/MoviesAPI';
 import { SortAPI } from 'js/utils/SortAPI/SortAPI';
+import {
+  selectMoviesData,
+  selectMoviesError,
+  selectMoviesIsFetching,
+} from 'redux/slices/film/selectors';
+import { getSearchMovies } from 'redux/slices/film/thunks';
 
 const MoviesPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const search = searchParams.get(searchParamKey);
-  const { data, isFetching, error, getData } = useData();
+
+  const dispatcher = useDispatch();
+  const data = useSelector(selectMoviesData);
+  const isFetching = useSelector(selectMoviesIsFetching);
+  const error = useSelector(selectMoviesError);
 
   useEffect(() => {
-    getData(MovieAPI.getMoviesByQuery(search));
-  }, [getData, search]);
+    dispatcher(getSearchMovies(search));
+  }, [dispatcher, search]);
 
   const moviesList = SortAPI.sortMovieByVoteCount(data);
 

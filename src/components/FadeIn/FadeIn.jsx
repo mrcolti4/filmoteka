@@ -1,23 +1,33 @@
-import { animated, useSpring } from '@react-spring/web';
 import React from 'react';
 import PropTypes from 'prop-types';
+// import { motion } from 'framer-motion';
+// import { childVariants } from 'js/AnimatedList/AnimatedList';
 
-export const FadeIn = ({ className, children }) => {
-  const items = React.Children.toArray(children);
-  const props = useSpring({
-    from: { opacity: 0 },
-    to: { opacity: 1 },
-    delay: 200,
-  });
+// import styled from './FadeIn.module.css';
+// import clsx from 'clsx';
 
-  if (!items.length) return;
+export const transition = (Component, isFetching) => {
   return (
-    <animated.ul className={className} style={props}>
-      {items}
-    </animated.ul>
+    <>
+      {Component}
+      {/* <motion.div
+        className={clsx({ isFetching: styled.fade_out })}
+        initial={{ scaleY: 0 }}
+        animate={{ scaleY: 0 }}
+        exit={{ scaleY: 1 }}
+        transition={{ duration: 1, ease: [0.2, 1, 0.3, 1] }}
+      />
+      <motion.div
+        className={clsx({ isFetching: styled.fade_out })}
+        initial={{ scaleY: 1 }}
+        animate={{ scaleY: 0 }}
+        exit={{ scaleY: 1 }}
+        transition={{ duration: 1, ease: [0.2, 1, 0.3, 1] }}
+      /> */}
+    </>
   );
 };
 
-FadeIn.propTypes = {
+transition.propTypes = {
   className: PropTypes.string,
 };

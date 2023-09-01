@@ -10,3 +10,14 @@
   align-items: center;
   gap: 20px;
 }
+.filter__item {
+  background: none;
+  border: 1px solid black;
+  padding: 10px;
+  font-size: 16px;
+}
+
+.filter__item.active {
+  background-color: #000;
+  color: #fff;
+}

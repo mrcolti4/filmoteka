@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
 
-import Loader from 'components/Loader/Loader';
+import Loader from 'components/Loader/LoaderScreen';
 import { useData } from 'js/useData/useData';
 
 import styled from './Cast.module.css';

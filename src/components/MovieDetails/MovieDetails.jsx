@@ -10,6 +10,7 @@ const MovieDetails = ({ data, backLinkHref }) => {
   const votes = String(Math.round(vote_average * 10));
   return (
     <>
+      {/* <LoaderScreen /> */}
       <Link className={clsx(styled.movie_back_link)} to={backLinkHref}>
         <TiArrowBackOutline fontSize={'36px'} />
         Go back

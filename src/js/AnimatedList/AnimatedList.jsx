@@ -1,10 +1,10 @@
 export const routeVariants = {
   initial: {
-    y: '100vh',
+    y: '100px',
     opacity: 0,
   },
   final: {
-    y: '0vh',
+    y: '0px',
     opacity: 1,
     transition: {
       type: 'spring',
@@ -21,7 +21,7 @@ export const childVariants = {
     opacity: 1,
     y: '0px',
     transition: {
-      duration: 0.5,
+      duration: 0.3,
     },
   },
 };
