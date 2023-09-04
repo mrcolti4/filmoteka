@@ -25,3 +25,37 @@ export const childVariants = {
     },
   },
 };
+
+export const moviePageVariants = {
+  initial: {
+    x: '-100%',
+    opacity: 0,
+  },
+  final: {
+    x: '0%',
+    opacity: 1,
+    transition: {
+      duration: 0.5,
+    },
+  },
+  list: {
+    visible: {
+      opacity: 1,
+      transition: {
+        delay: 0.5,
+      },
+    },
+    hidden: { opacity: 0 },
+  },
+  item: {
+    visible: i => ({
+      opacity: 1,
+      x: '0%',
+      transition: {
+        delay: i * 0.3,
+        mass: 0.3,
+      },
+    }),
+    hidden: { opacity: 0, x: '100%' },
+  },
+};

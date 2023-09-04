@@ -44,7 +44,6 @@ const HomePage = () => {
   };
 
   const moviesList = SortAPI.sortMovieByRating(trendMovies);
-  console.log(error);
   return (
     <main>
       <Slider />

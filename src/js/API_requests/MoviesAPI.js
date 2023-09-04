@@ -42,8 +42,16 @@ export default class MovieAPI {
     return results;
   };
 
-  static getSingleMovie = async movieId => {
-    const URL = `movie/${movieId}`;
+  static getSingleMovie = async (movieId, movieType) => {
+    let URL;
+    switch (movieType) {
+      case 'tv':
+        URL = `tv/${movieId}`;
+        break;
+      default:
+        URL = `movie/${movieId}`;
+        break;
+    }
     const { data } = await instance.get(URL, this.config);
 
     return data;

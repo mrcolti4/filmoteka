@@ -28,6 +28,11 @@ const handleSingleMovieFulfilled = (state, { payload }) => {
   state.movieDetail = payload;
 };
 
+const handleSingleMoviePending = state => {
+  state.isFetching = true;
+  state.movieDetail = null;
+};
+
 const filmSlice = createSlice({
   name: 'film',
   initialState,
@@ -39,7 +44,7 @@ const filmSlice = createSlice({
       .addCase(getSearchMovies.pending, handlePending)
       .addCase(getSearchMovies.fulfilled, handleMoviesFulfilled)
       .addCase(getSearchMovies.rejected, handleRejected)
-      .addCase(getSingleMovie.pending, handlePending)
+      .addCase(getSingleMovie.pending, handleSingleMoviePending)
       .addCase(getSingleMovie.fulfilled, handleSingleMovieFulfilled)
       .addCase(getSingleMovie.rejected, handleRejected);
   },

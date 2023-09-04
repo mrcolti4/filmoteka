@@ -27,9 +27,9 @@ export const getSearchMovies = createAsyncThunk(
 
 export const getSingleMovie = createAsyncThunk(
   'film/getSingleMovie',
-  async (movieId, thunkApi) => {
+  async (params, thunkApi) => {
     try {
-      const data = await MovieAPI.getSingleMovie(movieId);
+      const data = await MovieAPI.getSingleMovie(...Object.values(params));
       return data;
     } catch (error) {
       return thunkApi.rejectWithValue(error.message);

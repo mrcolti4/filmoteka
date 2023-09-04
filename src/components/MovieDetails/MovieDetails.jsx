@@ -2,11 +2,14 @@ import clsx from 'clsx';
 import { Link, NavLink } from 'react-router-dom';
 import { TiArrowBackOutline } from 'react-icons/ti';
 import PropTypes from 'prop-types';
+import { motion } from 'framer-motion';
 
 import styled from './MovieDetails.module.css';
+import { moviePageVariants } from 'js/AnimatedList/AnimatedList';
+import OrchestrationList from 'components/OrchestrationList/OrchestrationList';
 
 const MovieDetails = ({ data, backLinkHref }) => {
-  const { title, poster_path, vote_average, overview, genres } = data;
+  const { title, name, poster_path, vote_average, overview, genres } = data;
   const votes = String(Math.round(vote_average * 10));
   return (
     <>
@@ -17,21 +20,46 @@ const MovieDetails = ({ data, backLinkHref }) => {
       </Link>
       {Boolean(data) && (
         <div className={clsx(styled.movie_item)}>
-          <img
+          <motion.img
             src={poster_path && `https://image.tmdb.org/t/p/w500${poster_path}`}
-            alt={title && title}
+            alt={title || name}
             className="movie_poster"
+            variants={moviePageVariants}
+            initial="initial"
+            animate="final"
           />
-          <div className={clsx(styled.movie_descr)}>
-            <h2 className={clsx(styled.movie_title)}>{title}</h2>
-            <p className={clsx(styled.movie_score)}>
+          <OrchestrationList>
+            <motion.li
+              initial="hidden"
+              animate="visible"
+              variants={moviePageVariants.item}
+              className={clsx(styled.movie_title)}
+            >
+              {title || name}
+            </motion.li>
+            <motion.li
+              initial="hidden"
+              animate="visible"
+              variants={moviePageVariants.item}
+              className={clsx(styled.movie_score)}
+            >
               Positive votes: <span>{votes}%</span>
-            </p>
-            <div className={clsx(styled.movie_details)}>
+            </motion.li>
+            <motion.li
+              initial="hidden"
+              animate="visible"
+              variants={moviePageVariants.item}
+              className={clsx(styled.movie_details)}
+            >
               <h3>Overview</h3>
               <p>{overview}</p>
-            </div>
-            <div className={clsx(styled.movie_details)}>
+            </motion.li>
+            <motion.li
+              initial="hidden"
+              animate="visible"
+              variants={moviePageVariants.item}
+              className={clsx(styled.movie_details)}
+            >
               <h3>Genres</h3>
               <p className="movie_genres">
                 {genres?.map(({ name }, index) => (
@@ -40,8 +68,8 @@ const MovieDetails = ({ data, backLinkHref }) => {
                   </a>
                 ))}
               </p>
-            </div>
-          </div>
+            </motion.li>
+          </OrchestrationList>
         </div>
       )}
       <ul className={clsx(styled.details__list)}>

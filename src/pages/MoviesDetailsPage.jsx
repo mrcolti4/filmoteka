@@ -35,7 +35,9 @@ const MoviesDetailsPage = () => {
   const { movieId } = useParams();
   const location = useLocation();
 
+  const mediaType = location.state.media_type;
   const backLinkHref = location.state?.from ?? '/movies';
+
   const dispatcher = useDispatch();
   const movieDetail = useSelector(selectMoviesMovieDetail);
   const isFetching = useSelector(selectMoviesIsFetching);
@@ -43,13 +45,13 @@ const MoviesDetailsPage = () => {
 
   useEffect(() => {
     if (!movieId) return;
-    dispatcher(getSingleMovie(movieId));
+    dispatcher(getSingleMovie({ movieId, mediaType }));
   }, [dispatcher, movieId]);
 
   if (error) {
     return <ErrorPage />;
   }
-
+  console.log(isFetching);
   return (
     <section>
       <div className="container">
