@@ -4,6 +4,7 @@ import { getSearchMovies, getSingleMovie, getTrendMovies } from './thunks';
 const initialState = {
   movies: null,
   movieDetail: null,
+  mediaType: null,
   isFetching: false,
   error: null,
 };

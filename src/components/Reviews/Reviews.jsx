@@ -8,8 +8,8 @@ import { childVariants, routeVariants } from 'js/AnimatedList/AnimatedList';
 import Loader from 'components/Loader/LoaderScreen';
 import MovieAPI from 'js/API_requests/MoviesAPI';
 const Reviews = () => {
-  const { movieId } = useParams();
-  const url = `https://api.themoviedb.org/3/movie/${movieId}/reviews`;
+  const { mediaType, movieId } = useParams();
+  const url = `https://api.themoviedb.org/3/${mediaType}/${movieId}/reviews`;
   const { data, isFetching, error, getData } = useData();
 
   useEffect(() => {
@@ -17,14 +17,15 @@ const Reviews = () => {
   }, [getData, url]);
   return (
     <>
-      {isFetching && <Loader />}
       {Boolean(error) && error.message}
       <motion.ul variants={routeVariants} initial="initial" animate="final">
         {Boolean(data?.results?.length) &&
           data?.results?.map(({ author, content, id }) => {
             return (
               <motion.li
-                variants={childVariants}
+                initial="initial"
+                animate="final"
+                variants={routeVariants}
                 className={styled.reviews_item}
                 key={id}
               >

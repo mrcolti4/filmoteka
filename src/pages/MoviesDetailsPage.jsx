@@ -18,24 +18,10 @@ import { getSingleMovie } from 'redux/slices/film/thunks';
 const Cast = lazy(() => import('components/Cast/Cast'));
 const Reviews = lazy(() => import('components/Reviews/Reviews'));
 
-const RoutesWithAnimation = () => {
-  const location = useLocation();
-
-  return (
-    <Suspense fallback={<Loader />}>
-      <Routes key={location.key}>
-        <Route path="cast" element={<Cast />} />
-        <Route path="reviews" element={<Reviews />} />
-      </Routes>
-    </Suspense>
-  );
-};
-
 const MoviesDetailsPage = () => {
-  const { movieId } = useParams();
+  const { mediaType, movieId } = useParams();
   const location = useLocation();
 
-  const mediaType = location.state.media_type;
   const backLinkHref = location.state?.from ?? '/movies';
 
   const dispatcher = useDispatch();
@@ -51,16 +37,23 @@ const MoviesDetailsPage = () => {
   if (error) {
     return <ErrorPage />;
   }
-  console.log(isFetching);
   return (
     <section>
       <div className="container">
-        {isFetching && <LoaderScreen />}
         {movieDetail && (
-          <MovieDetails data={movieDetail} backLinkHref={backLinkHref} />
+          <MovieDetails
+            data={movieDetail}
+            backLinkHref={backLinkHref}
+            mediaType={mediaType}
+          />
         )}
         <LocationProvider>
-          <RoutesWithAnimation />
+          <Suspense fallback={<Loader />}>
+            <Routes location={location} key={location.pathname}>
+              <Route path="cast" element={<Cast />} />
+              <Route path="reviews" element={<Reviews />} />
+            </Routes>
+          </Suspense>
         </LocationProvider>
       </div>
     </section>

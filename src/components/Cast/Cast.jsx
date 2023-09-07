@@ -12,8 +12,8 @@ import MovieAPI from 'js/API_requests/MoviesAPI';
 import { imageExists } from 'js/utils/ImageNotFound/ImageNotFound';
 
 const Cast = () => {
-  const { movieId } = useParams();
-  const url = `https://api.themoviedb.org/3/movie/${movieId}/credits`;
+  const { mediaType, movieId } = useParams();
+  const url = `https://api.themoviedb.org/3/${mediaType}/${movieId}/credits`;
 
   const { data, isFetching, error, getData } = useData();
 
@@ -28,9 +28,9 @@ const Cast = () => {
       {isFetching && <Loader />}
       {Boolean(error) && error.message}
       <motion.ul
-        variants={routeVariants}
         initial="initial"
         animate="final"
+        variants={routeVariants}
         className={clsx(styled.cast)}
       >
         {cast &&

@@ -13,7 +13,6 @@ const MovieDetails = ({ data, backLinkHref }) => {
   const votes = String(Math.round(vote_average * 10));
   return (
     <>
-      {/* <LoaderScreen /> */}
       <Link className={clsx(styled.movie_back_link)} to={backLinkHref}>
         <TiArrowBackOutline fontSize={'36px'} />
         Go back
@@ -99,7 +98,7 @@ const MovieDetails = ({ data, backLinkHref }) => {
 export default MovieDetails;
 MovieDetails.propTypes = {
   data: PropTypes.shape({
-    title: PropTypes.string.isRequired,
+    title: PropTypes.string,
     poster_path: PropTypes.string.isRequired,
     vote_average: PropTypes.number.isRequired,
     overview: PropTypes.string.isRequired,

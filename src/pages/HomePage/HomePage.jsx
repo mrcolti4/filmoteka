@@ -14,6 +14,8 @@ import {
   selectMoviesIsFetching,
 } from 'redux/slices/film/selectors';
 import { getTrendMovies } from 'redux/slices/film/thunks';
+import { selectScrollPosition } from 'redux/slices/scroll/selectors';
+import { goToPosition } from 'redux/slices/scroll/slice';
 
 const HomePage = () => {
   const [timeWindow, setTimeWindow] = useState('day');
@@ -27,6 +29,10 @@ const HomePage = () => {
   useEffect(() => {
     dispatcher(getTrendMovies({ mediaType, timeWindow }));
   }, [dispatcher, mediaType, timeWindow]);
+
+  useEffect(() => {
+    dispatcher(goToPosition());
+  }, [dispatcher]);
 
   const handleFilterClick = ({ target }, queryString) => {
     const activeBtn = document.querySelector(queryString);

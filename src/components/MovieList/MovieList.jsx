@@ -6,10 +6,19 @@ import { motion } from 'framer-motion';
 
 import styled from './MovieList.module.css';
 import { childVariants, routeVariants } from 'js/AnimatedList/AnimatedList';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectScrollPosition } from 'redux/slices/scroll/selectors';
+import { setScrollPosition } from 'redux/slices/scroll/slice';
 
 const MovieList = ({ movies = [], isFetching = false }) => {
   const location = useLocation();
   const showMovies = movies?.length > 0;
+
+  const dispatcher = useDispatch();
+
+  const handleLinkClick = () => {
+    dispatcher(setScrollPosition(window.scrollY));
+  };
 
   return (
     <>
@@ -42,8 +51,9 @@ const MovieList = ({ movies = [], isFetching = false }) => {
                 >
                   <Link
                     className={clsx(styled.movie__link, styled.movie__thumb)}
-                    to={`/movies/${id}`}
+                    to={`/movies/${media_type}/${id}`}
                     state={{ from: location, media_type }}
+                    onClick={handleLinkClick}
                   >
                     <img
                       src={
@@ -58,8 +68,9 @@ const MovieList = ({ movies = [], isFetching = false }) => {
                     <div className={clsx(styled.movie__title)}>
                       <Link
                         className={clsx(styled.movie__link)}
-                        to={`/movies/${id}`}
+                        to={`/movies/${media_type}/${id}`}
                         state={{ from: location, media_type }}
+                        onClick={handleLinkClick}
                       >
                         {title ?? name}
                       </Link>

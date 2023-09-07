@@ -13,6 +13,7 @@ import {
   selectMoviesIsFetching,
 } from 'redux/slices/film/selectors';
 import { getSearchMovies } from 'redux/slices/film/thunks';
+import { goToPosition } from 'redux/slices/scroll/slice';
 
 const MoviesPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -26,6 +27,10 @@ const MoviesPage = () => {
   useEffect(() => {
     dispatcher(getSearchMovies(search));
   }, [dispatcher, search]);
+
+  useEffect(() => {
+    dispatcher(goToPosition());
+  }, [dispatcher]);
 
   const moviesList = SortAPI.sortMovieByVoteCount(data);
 

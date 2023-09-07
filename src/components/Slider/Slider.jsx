@@ -39,6 +39,7 @@ const Slider = () => {
             overview,
             backdrop_path,
             genre_ids,
+            media_type,
           }) => {
             return (
               <StyledSlide
@@ -67,7 +68,7 @@ const Slider = () => {
                   <div>
                     <Link
                       className="slide__details-link"
-                      to={`/movies/${id}`}
+                      to={`/movies/movie/${id}`}
                       state={{ from: location }}
                     >
                       Movie details <TbArrowNarrowRight fontSize={'36px'} />
