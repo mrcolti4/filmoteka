@@ -48,3 +48,16 @@ export const getCinemaMovies = createAsyncThunk(
     }
   }
 );
+
+export const getSimilarMovies = createAsyncThunk(
+  'film/getSimilar',
+  async (params, thunkApi) => {
+    try {
+      const data = await MovieAPI.getSimilarMovies(...Object.values(params));
+
+      return data;
+    } catch (error) {
+      thunkApi.rejectWithValue(error.message);
+    }
+  }
+);

@@ -1,15 +1,11 @@
 import clsx from 'clsx';
-import { useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { AiFillStar } from 'react-icons/ai';
 import { motion } from 'framer-motion';
 
 import styled from './MovieList.module.css';
-import { childVariants, routeVariants } from 'js/AnimatedList/AnimatedList';
-import { useDispatch, useSelector } from 'react-redux';
-import { selectScrollPosition } from 'redux/slices/scroll/selectors';
-import { setScrollPosition } from 'redux/slices/scroll/slice';
+import { routeVariants } from 'js/AnimatedList/AnimatedList';
 import MovieListItem from './MovieListItem';
+import MovieCard from 'components/MovieCard/MovieCard';
 
 const MovieList = ({ movies = [], isFetching = false }) => {
   const showMovies = movies?.length > 0;
@@ -24,7 +20,11 @@ const MovieList = ({ movies = [], isFetching = false }) => {
       >
         {showMovies &&
           movies.map(film => {
-            return <MovieListItem data={film} />;
+            return (
+              <MovieListItem key={film.id}>
+                <MovieCard data={film} />
+              </MovieListItem>
+            );
           })}
       </motion.ul>
     </>
