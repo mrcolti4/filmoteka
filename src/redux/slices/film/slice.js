@@ -1,10 +1,15 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { getSearchMovies, getSingleMovie, getTrendMovies } from './thunks';
+import {
+  getSearchMovies,
+  getSimilarMovies,
+  getSingleMovie,
+  getTrendMovies,
+} from './thunks';
 
 const initialState = {
   movies: null,
   movieDetail: null,
-  mediaType: null,
+  similarMovies: null,
   isFetching: false,
   error: null,
 };
@@ -32,6 +37,12 @@ const handleSingleMovieFulfilled = (state, { payload }) => {
 const handleSingleMoviePending = state => {
   state.isFetching = true;
   state.movieDetail = null;
+  state.similarMovies = null;
+};
+
+const handleSimilarMovieFulfilled = (state, { payload }) => {
+  state.isFetching = false;
+  state.similarMovies = payload;
 };
 
 const filmSlice = createSlice({
@@ -47,7 +58,10 @@ const filmSlice = createSlice({
       .addCase(getSearchMovies.rejected, handleRejected)
       .addCase(getSingleMovie.pending, handleSingleMoviePending)
       .addCase(getSingleMovie.fulfilled, handleSingleMovieFulfilled)
-      .addCase(getSingleMovie.rejected, handleRejected);
+      .addCase(getSingleMovie.rejected, handleRejected)
+      .addCase(getSimilarMovies.pending, handlePending)
+      .addCase(getSimilarMovies.fulfilled, handleSimilarMovieFulfilled)
+      .addCase(getSimilarMovies.rejected, handleRejected);
   },
 });
 

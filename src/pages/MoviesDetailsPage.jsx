@@ -12,8 +12,9 @@ import {
   selectMoviesError,
   selectMoviesIsFetching,
   selectMoviesMovieDetail,
+  selectSimilarMovies,
 } from 'redux/slices/film/selectors';
-import { getSingleMovie } from 'redux/slices/film/thunks';
+import { getSimilarMovies, getSingleMovie } from 'redux/slices/film/thunks';
 
 const Cast = lazy(() => import('components/Cast/Cast'));
 const Reviews = lazy(() => import('components/Reviews/Reviews'));
@@ -28,11 +29,13 @@ const MoviesDetailsPage = () => {
   const movieDetail = useSelector(selectMoviesMovieDetail);
   const isFetching = useSelector(selectMoviesIsFetching);
   const error = useSelector(selectMoviesError);
+  const similar = useSelector(selectSimilarMovies);
 
   useEffect(() => {
     if (!movieId) return;
     dispatcher(getSingleMovie({ movieId, mediaType }));
-  }, [dispatcher, movieId]);
+    dispatcher(getSimilarMovies({ movieId, mediaType }));
+  }, [dispatcher, movieId, mediaType]);
 
   if (error) {
     return <ErrorPage />;
@@ -45,6 +48,7 @@ const MoviesDetailsPage = () => {
             data={movieDetail}
             backLinkHref={backLinkHref}
             mediaType={mediaType}
+            similar={similar}
           />
         )}
         <LocationProvider>

@@ -43,16 +43,7 @@ export default class MovieAPI {
   };
 
   static getSingleMovie = async (movieId, movieType) => {
-    let URL;
-    switch (movieType) {
-      case 'tv':
-        URL = `tv/${movieId}`;
-        break;
-      default:
-        URL = `movie/${movieId}`;
-        break;
-    }
-    const { data } = await instance.get(URL, this.config);
+    const { data } = await instance.get(`${movieType}/${movieId}`, this.config);
 
     return data;
   };
@@ -73,17 +64,23 @@ export default class MovieAPI {
     return { dates, results };
   };
 
-  static getMovieGenres = async () => {
+  static getGenres = async () => {
     const {
-      data: { genres },
+      data: { genres: movie },
     } = await instance.get('genre/movie/list', this.config);
 
-    return genres;
+    const {
+      data: { genres: tv },
+    } = await instance.get('genre/tv/list', this.config);
+
+    return { movie, tv };
   };
 
-  static getTVGenres = async () => {
-    const { data } = await instance.get('genre/tv/list', this.config);
+  static getSimilarMovies = async (movieId, mediaType) => {
+    const {
+      data: { results },
+    } = await instance.get(`${mediaType}/${movieId}/similar`, this.config);
 
-    return data;
+    return results;
   };
 }

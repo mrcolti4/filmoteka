@@ -16,19 +16,31 @@ import {
 import { getTrendMovies } from 'redux/slices/film/thunks';
 import { selectScrollPosition } from 'redux/slices/scroll/selectors';
 import { goToPosition } from 'redux/slices/scroll/slice';
+import { Autoplay } from 'swiper/modules';
+import { getGenres } from 'redux/slices/genres/thunks';
+import MovieAPI from 'js/API_requests/MoviesAPI';
+import { useData } from 'js/useData/useData';
+import HeaderSlide from 'components/Slider/HeaderSlide/HeaderSlide';
 
 const HomePage = () => {
   const [timeWindow, setTimeWindow] = useState('day');
   const [mediaType, setMediaType] = useState('all');
 
+  // Main movie list
   const dispatcher = useDispatch();
   const trendMovies = useSelector(selectMoviesData);
   const isFetching = useSelector(selectMoviesIsFetching);
   const error = useSelector(selectMoviesError);
 
+  // Slider movie list
+  const { data: sliderMovies, getData: setSliderMovies } = useData();
+  const { results: sliderList } = sliderMovies ?? {};
+
   useEffect(() => {
+    setSliderMovies(MovieAPI.getCinemaMovies());
     dispatcher(getTrendMovies({ mediaType, timeWindow }));
-  }, [dispatcher, mediaType, timeWindow]);
+    dispatcher(getGenres());
+  }, [dispatcher, mediaType, timeWindow, setSliderMovies]);
 
   useEffect(() => {
     dispatcher(goToPosition());
@@ -52,7 +64,14 @@ const HomePage = () => {
   const moviesList = SortAPI.sortMovieByRating(trendMovies);
   return (
     <main>
-      <Slider />
+      {sliderList && (
+        <Slider modules={[Autoplay]} slidesPerView={1} autoplay={true}>
+          {sliderList?.map(film => {
+            return <HeaderSlide key={film.id} data={film} />;
+          })}
+        </Slider>
+      )}
+
       <div className="container">
         <h2 className="home_header">Trend movies</h2>
         <div className={clsx(styled.home__filter_wrapper)}>
