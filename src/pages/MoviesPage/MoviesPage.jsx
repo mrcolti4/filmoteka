@@ -1,12 +1,6 @@
 import { useSearchParams } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-
-import MovieList from 'components/MovieList/MovieList';
-import ErrorPage from './ErrorPage/ErrorPage';
-
-import { searchParamKey } from 'js/utils/consts';
-import { SortAPI } from 'js/utils/SortAPI/SortAPI';
 import {
   selectMoviesData,
   selectMoviesError,
@@ -15,10 +9,16 @@ import {
 import { getSearchMovies } from 'redux/slices/film/thunks';
 import { goToPosition } from 'redux/slices/scroll/slice';
 
-const MoviesPage = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
-  const search = searchParams.get(searchParamKey);
+import { searchParamKey } from 'js/utils/consts';
+import { SortAPI } from 'js/utils/SortAPI/SortAPI';
 
+import MovieList from 'components/MovieList/MovieList';
+import MovieFilter from './components/MovieFilter/MovieFilter';
+import ErrorPage from 'pages/ErrorPage/ErrorPage';
+import { useSearch } from './useSearch';
+
+const MoviesPage = () => {
+  const [search, genre] = useSearch();
   const dispatcher = useDispatch();
   const data = useSelector(selectMoviesData);
   const isFetching = useSelector(selectMoviesIsFetching);
@@ -34,27 +34,17 @@ const MoviesPage = () => {
 
   const moviesList = SortAPI.sortMovieByVoteCount(data);
 
-  const onSearch = e => {
-    e.preventDefault();
-    const searchValue = e.currentTarget.elements.search.value.trim();
-    if (!searchValue) return;
-    setSearchParams({ [searchParamKey]: searchValue });
-  };
-
   if (error?.message) {
     return <ErrorPage />;
   }
 
   return (
-    <>
+    <section className="movie-search">
       <div className="container">
-        <form onSubmit={onSearch}>
-          <input name="search" type="text" defaultValue={search || ''} />
-          <button type="submit">Search</button>
-        </form>
+        <MovieFilter />
         <MovieList movies={moviesList} isFetching={isFetching} />
       </div>
-    </>
+    </section>
   );
 };
 
