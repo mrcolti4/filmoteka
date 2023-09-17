@@ -1,11 +1,12 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
+import { AiFillStar } from 'react-icons/ai';
+
 import { setScrollPosition } from 'redux/slices/scroll/slice';
 
 import styled from './MovieCard.module.css';
 import clsx from 'clsx';
-import { AiFillStar } from 'react-icons/ai';
 
 const MovieCard = ({ data, type }) => {
   const {
@@ -19,6 +20,8 @@ const MovieCard = ({ data, type }) => {
     media_type,
   } = data;
 
+  const mediaType = media_type || type || 'movie';
+
   const dispatcher = useDispatch();
   const location = useLocation();
 
@@ -30,7 +33,7 @@ const MovieCard = ({ data, type }) => {
     <>
       <Link
         className={clsx(styled.movie__link, styled.movie__thumb)}
-        to={`/movies/${media_type || type}/${id}`}
+        to={`/movies/${mediaType}/${id}`}
         state={{ from: location, media_type }}
         onClick={handleLinkClick}
       >
@@ -44,7 +47,7 @@ const MovieCard = ({ data, type }) => {
         <div className={clsx(styled.movie__title)}>
           <Link
             className={clsx(styled.movie__link)}
-            to={`/movies/${media_type || type}/${id}`}
+            to={`/movies/${mediaType}/${id}`}
             state={{ from: location, media_type }}
             onClick={handleLinkClick}
           >

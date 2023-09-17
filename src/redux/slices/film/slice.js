@@ -5,11 +5,13 @@ import {
   getSingleMovie,
   getTrendMovies,
 } from './thunks';
+import { getUnique } from 'js/utils/SortAPI/getUnique';
 
 const initialState = {
   movies: null,
   movieDetail: null,
   similarMovies: null,
+  recentlyWatched: [],
   isFetching: false,
   error: null,
 };
@@ -32,6 +34,12 @@ const handleRejected = (state, { payload }) => {
 const handleSingleMovieFulfilled = (state, { payload }) => {
   state.isFetching = false;
   state.movieDetail = payload;
+  if (getUnique(state.recentlyWatched, payload.id)) {
+    state.recentlyWatched.unshift(payload);
+  }
+  if (state.recentlyWatched.length > 10) {
+    state.recentlyWatched.length = Math.min(state.recentlyWatched.length, 10);
+  }
 };
 
 const handleSingleMoviePending = state => {
