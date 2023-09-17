@@ -30,7 +30,7 @@ export const getSingleMovie = createAsyncThunk(
   async (params, thunkApi) => {
     try {
       const data = await MovieAPI.getSingleMovie(...Object.values(params));
-      return data;
+      return { ...data, media_type: params.mediaType };
     } catch (error) {
       return thunkApi.rejectWithValue(error.message);
     }

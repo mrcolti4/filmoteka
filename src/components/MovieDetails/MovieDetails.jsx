@@ -23,6 +23,8 @@ const MovieDetails = ({ data, backLinkHref, similar }) => {
           <motion.img
             src={poster_path && `https://image.tmdb.org/t/p/w500${poster_path}`}
             alt={title || name}
+            width={!Boolean(poster_path) ? 500 : undefined}
+            height={!Boolean(poster_path) ? 750 : undefined}
             className="movie_poster"
             variants={moviePageVariants}
             initial="initial"
@@ -73,7 +75,7 @@ const MovieDetails = ({ data, backLinkHref, similar }) => {
         </div>
       )}
 
-      <SimilarList data={similar} />
+      {Boolean(similar?.length) && <SimilarList data={similar} />}
 
       <ul className={clsx(styled.details__list)}>
         <li className={clsx(styled.details__item)}>
