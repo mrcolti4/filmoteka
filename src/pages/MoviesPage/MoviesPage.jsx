@@ -1,4 +1,3 @@
-import { useSearchParams } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -8,31 +7,49 @@ import {
 } from 'redux/slices/film/selectors';
 import { getSearchMovies } from 'redux/slices/film/thunks';
 import { goToPosition } from 'redux/slices/scroll/slice';
+import { onPageLoad } from 'redux/slices/genres/slice';
+import { getGenresOptions } from './getGenresOptions';
+import { getGenres } from 'redux/slices/genres/thunks';
 
-import { searchParamKey } from 'js/utils/consts';
 import { SortAPI } from 'js/utils/SortAPI/SortAPI';
-
-import MovieList from 'components/MovieList/MovieList';
-import MovieFilter from './components/MovieFilter/MovieFilter';
-import ErrorPage from 'pages/ErrorPage/ErrorPage';
 import { useSearch } from './useSearch';
 
+import MovieList from 'components/MovieList/MovieList';
+import MovieForm from './components/MovieForm/MovieForm';
+import ErrorPage from 'pages/ErrorPage/ErrorPage';
+
 const MoviesPage = () => {
-  const [search, genre] = useSearch();
+  const { search, genre, mediaType } = useSearch();
   const dispatcher = useDispatch();
   const data = useSelector(selectMoviesData);
   const isFetching = useSelector(selectMoviesIsFetching);
   const error = useSelector(selectMoviesError);
 
+  const setDefaultFilters = data => {
+    if (!genre) return;
+    const options = getGenresOptions(data[mediaType]);
+    const genres = genre.split(',');
+    const choosenFilters = [];
+    for (let i = 0; i < genres.length; i++) {
+      const filter = options.filter(
+        option => option.value === Number(genres[i])
+      );
+      choosenFilters.push(...filter);
+    }
+    dispatcher(onPageLoad(choosenFilters));
+  };
+
   useEffect(() => {
-    dispatcher(getSearchMovies(search));
-  }, [dispatcher, search]);
+    if (mediaType) dispatcher(getSearchMovies({ search, mediaType }));
+    dispatcher(getGenres()).unwrap().then(setDefaultFilters);
+  }, [dispatcher, search, mediaType]);
 
   useEffect(() => {
     dispatcher(goToPosition());
   }, [dispatcher]);
 
-  const moviesList = SortAPI.sortMovieByVoteCount(data);
+  const sortedList = SortAPI.sortMovieByGenres(genre, data);
+  const moviesList = SortAPI.sortMovieByVoteCount(sortedList);
 
   if (error?.message) {
     return <ErrorPage />;
@@ -41,8 +58,12 @@ const MoviesPage = () => {
   return (
     <section className="movie-search">
       <div className="container">
-        <MovieFilter />
-        <MovieList movies={moviesList} isFetching={isFetching} />
+        <MovieForm />
+        <MovieList
+          movies={moviesList}
+          isFetching={isFetching}
+          type={mediaType}
+        />
       </div>
     </section>
   );

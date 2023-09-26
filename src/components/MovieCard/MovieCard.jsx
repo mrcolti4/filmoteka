@@ -20,7 +20,7 @@ const MovieCard = ({ data, type }) => {
     media_type,
   } = data;
 
-  const mediaType = media_type || type || 'movie';
+  const mediaType = media_type || type;
 
   const dispatcher = useDispatch();
   const location = useLocation();

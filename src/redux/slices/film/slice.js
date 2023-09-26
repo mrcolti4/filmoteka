@@ -5,7 +5,7 @@ import {
   getSingleMovie,
   getTrendMovies,
 } from './thunks';
-import { getUnique } from 'js/utils/SortAPI/getUnique';
+import { isUnique } from 'js/utils/SortAPI/isUnique';
 
 const initialState = {
   movies: null,
@@ -34,7 +34,7 @@ const handleRejected = (state, { payload }) => {
 const handleSingleMovieFulfilled = (state, { payload }) => {
   state.isFetching = false;
   state.movieDetail = payload;
-  if (getUnique(state.recentlyWatched, payload.id)) {
+  if (isUnique(state.recentlyWatched, payload.id)) {
     state.recentlyWatched.unshift(payload);
   }
   if (state.recentlyWatched.length > 10) {

@@ -10,6 +10,7 @@ const initialState = {
 const handlePending = state => {
   state.movie = null;
   state.tv = null;
+  state.filter = null;
   state.error = null;
 };
 
@@ -25,6 +26,11 @@ const handleRejected = (state, { payload }) => {
 const genresSlice = createSlice({
   name: 'genres',
   initialState,
+  reducers: {
+    onPageLoad(state, { payload }) {
+      state.filter = payload;
+    },
+  },
   extraReducers: builder => {
     builder
       .addCase(getGenres.pending, handlePending)
@@ -33,4 +39,5 @@ const genresSlice = createSlice({
   },
 });
 
+export const { onPageLoad } = genresSlice.actions;
 export const genresReducer = genresSlice.reducer;
