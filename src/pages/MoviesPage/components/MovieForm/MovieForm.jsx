@@ -2,6 +2,7 @@ import { useFormik } from 'formik';
 import {
   genreParamKey,
   mediaTypeParamKey,
+  pageParamKey,
   searchParamKey,
 } from 'js/utils/consts';
 import { useSearch } from 'pages/MoviesPage/useSearch';
@@ -22,7 +23,8 @@ const MovieForm = () => {
     tv: getGenresOptions(useSelector(selectTvGenres)),
   };
   const filter = useSelector(selectMovieFilter);
-  const { search, mediaType, setSearchParams } = useSearch();
+
+  const { search, mediaType, page, setSearchParams } = useSearch();
   const { values, setFieldValue, handleChange, handleSubmit } = useFormik({
     initialValues: {
       search: search ?? '',
@@ -45,6 +47,7 @@ const MovieForm = () => {
       [mediaTypeParamKey]: mediaType,
       [searchParamKey]: search,
       [genreParamKey]: genre ? genre.map(item => item.value).join(',') : '',
+      [pageParamKey]: page ?? 1,
     });
   }
 
