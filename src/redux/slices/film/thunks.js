@@ -15,9 +15,9 @@ export const getTrendMovies = createAsyncThunk(
 
 export const getSearchMovies = createAsyncThunk(
   'film/getSearchMovies',
-  async (query, thunkApi) => {
+  async (params, thunkApi) => {
     try {
-      const data = await MovieAPI.getMoviesByQuery(query);
+      const data = await MovieAPI.getMoviesByQuery(...Object.values(params));
       return data;
     } catch (error) {
       return thunkApi.rejectWithValue(error.message);

@@ -1,3 +1,5 @@
+import { isUnique } from './isUnique';
+
 export class SortAPI {
   static sortMovieByRating = movies => {
     return movies
@@ -15,5 +17,25 @@ export class SortAPI {
     return movies
       ?.filter(item => item.title || item.name)
       .filter(item => item.adult);
+  };
+  static sortMovieByGenres = (genres = [], movies = []) => {
+    if (genres?.length === 0) {
+      return movies;
+    }
+    const genresArr = genres?.split(',');
+    const sortedArr = [];
+
+    for (const i in movies) {
+      for (const y in genresArr) {
+        if (
+          movies[i].genre_ids.includes(Number(genresArr[y])) &&
+          isUnique(sortedArr, movies[i].id)
+        ) {
+          sortedArr.push(movies[i]);
+        }
+      }
+    }
+
+    return sortedArr;
   };
 }

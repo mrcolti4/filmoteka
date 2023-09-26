@@ -24,8 +24,8 @@ export default class MovieAPI {
     return data;
   };
 
-  static getMoviesByQuery = async title => {
-    const URL = `/search/movie`;
+  static getMoviesByQuery = async (title, mediaType) => {
+    const URL = `/search/${mediaType}`;
     const config = {
       params: {
         query: title,

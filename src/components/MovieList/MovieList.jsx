@@ -7,7 +7,7 @@ import { routeVariants } from 'js/AnimatedList/AnimatedList';
 import MovieListItem from './MovieListItem';
 import MovieCard from 'components/MovieCard/MovieCard';
 
-const MovieList = ({ movies = [], isFetching = false }) => {
+const MovieList = ({ movies = [], isFetching = false, type }) => {
   const showMovies = movies?.length > 0;
 
   return (
@@ -22,7 +22,7 @@ const MovieList = ({ movies = [], isFetching = false }) => {
           movies.map(film => {
             return (
               <MovieListItem key={film.id}>
-                <MovieCard data={film} />
+                <MovieCard data={film} type={type} />
               </MovieListItem>
             );
           })}

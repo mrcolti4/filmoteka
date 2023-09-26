@@ -14,10 +14,8 @@ import {
   selectMoviesIsFetching,
 } from 'redux/slices/film/selectors';
 import { getTrendMovies } from 'redux/slices/film/thunks';
-import { selectScrollPosition } from 'redux/slices/scroll/selectors';
 import { goToPosition } from 'redux/slices/scroll/slice';
 import { Autoplay } from 'swiper/modules';
-import { getGenres } from 'redux/slices/genres/thunks';
 import MovieAPI from 'js/API_requests/MoviesAPI';
 import { useData } from 'js/useData/useData';
 import HeaderSlide from 'components/Slider/HeaderSlide/HeaderSlide';
@@ -39,7 +37,6 @@ const HomePage = () => {
   useEffect(() => {
     setSliderMovies(MovieAPI.getCinemaMovies());
     dispatcher(getTrendMovies({ mediaType, timeWindow }));
-    dispatcher(getGenres());
   }, [dispatcher, mediaType, timeWindow, setSliderMovies]);
 
   useEffect(() => {
