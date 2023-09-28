@@ -14,7 +14,13 @@ const MovieDetails = ({ data, backLinkHref, similar }) => {
   const votes = String(Math.round(vote_average * 10));
   return (
     <>
-      <Link className={clsx(styled.movie_back_link)} to={backLinkHref}>
+      <Link
+        className={clsx(styled.movie_back_link)}
+        to={backLinkHref}
+        onClick={() => {
+          window.history.back();
+        }}
+      >
         <TiArrowBackOutline fontSize={'36px'} />
         Go back
       </Link>

@@ -6,7 +6,6 @@ import {
   selectMoviesIsFetching,
 } from 'redux/slices/film/selectors';
 import { getSearchMovies } from 'redux/slices/film/thunks';
-import { goToPosition } from 'redux/slices/scroll/slice';
 import { onPageLoad } from 'redux/slices/genres/slice';
 import { getGenresOptions } from './getGenresOptions';
 
@@ -60,10 +59,6 @@ const MoviesPage = () => {
       setDefaultFilters(genres);
     }
   }, [dispatcher, genre, mediaType, movieGenre, tvGenre]);
-
-  useEffect(() => {
-    dispatcher(goToPosition());
-  }, [dispatcher]);
 
   const sortedList = SortAPI.sortMovieByGenres(genre, data);
   const moviesList = SortAPI.sortMovieByVoteCount(sortedList);
