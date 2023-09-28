@@ -24,22 +24,21 @@ export default class MovieAPI {
     return data;
   };
 
-  static getMoviesByQuery = async (title, mediaType) => {
+  static getMoviesByQuery = async (title, mediaType, page) => {
     const URL = `/search/${mediaType}`;
     const config = {
       params: {
         query: title,
+        page,
         api_key,
       },
       paramsSerializer: params => {
         return qs.stringify(params);
       },
     };
-    const {
-      data: { results },
-    } = await instance(URL, config);
+    const { data } = await instance(URL, config);
 
-    return results;
+    return { movies: data.results, totalPages: data.total_pages };
   };
 
   static getSingleMovie = async (movieId, movieType) => {
@@ -49,11 +48,12 @@ export default class MovieAPI {
   };
 
   static getTrendMovies = async (mediaType, timeWindow) => {
-    const {
-      data: { results },
-    } = await instance.get(`/trending/${mediaType}/${timeWindow}`, this.config);
+    const { data } = await instance.get(
+      `/trending/${mediaType}/${timeWindow}`,
+      this.config
+    );
 
-    return results;
+    return { movies: data.results };
   };
 
   static getCinemaMovies = async () => {
