@@ -7,19 +7,22 @@ import { selectTotalPages } from 'redux/slices/film/selectors';
 const MoviePagination = () => {
   const { searchParams, page, setSearchParams } = useSearch();
   const pageCount = useSelector(selectTotalPages);
+
   return (
     <>
-      <Pagination
-        count={pageCount}
-        page={Number(page)}
-        onChange={(event, value) => {
-          const params = {};
-          for (const param of searchParams.entries()) {
-            params[param[0]] = param[1];
-          }
-          setSearchParams({ ...params, [pageParamKey]: value });
-        }}
-      />
+      {pageCount > 1 && (
+        <Pagination
+          count={pageCount}
+          page={Number(page)}
+          onChange={(event, value) => {
+            const params = {};
+            for (const param of searchParams.entries()) {
+              params[param[0]] = param[1];
+            }
+            setSearchParams({ ...params, [pageParamKey]: value });
+          }}
+        />
+      )}
     </>
   );
 };
