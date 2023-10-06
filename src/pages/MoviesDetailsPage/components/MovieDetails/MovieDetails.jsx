@@ -7,7 +7,7 @@ import { motion } from 'framer-motion';
 import styled from './MovieDetails.module.css';
 import { moviePageVariants } from 'js/AnimatedList/AnimatedList';
 import OrchestrationList from 'components/OrchestrationList/OrchestrationList';
-import SimilarList from 'components/SimilarList/SimilarList';
+import SimilarList from 'pages/MoviesDetailsPage/components/SimilarList/SimilarList';
 
 const MovieDetails = ({ data, backLinkHref, similar }) => {
   const { title, name, poster_path, vote_average, overview, genres } = data;

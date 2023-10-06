@@ -20,6 +20,7 @@ import {
   selectTvGenres,
 } from 'redux/slices/genres/selectors';
 import MoviePagination from './components/MoviePagination/MoviePagination';
+import Loader from 'components/Loader/Loader';
 
 const MoviesPage = () => {
   const { search, genre, page, mediaType } = useSearch();
@@ -70,6 +71,7 @@ const MoviesPage = () => {
   return (
     <section className="movie-search">
       <div className="container">
+        {isFetching && <Loader />}
         <MovieForm />
         <MovieList
           movies={moviesList}

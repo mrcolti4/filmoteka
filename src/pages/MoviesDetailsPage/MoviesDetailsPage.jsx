@@ -2,10 +2,9 @@ import { Suspense, lazy, useEffect } from 'react';
 import { Route, Routes, useLocation, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
-import Loader from 'components/Loader/LoaderScreen';
-import MovieDetails from 'components/MovieDetails/MovieDetails';
-import LoaderScreen from 'components/Loader/LoaderScreen';
-import ErrorPage from './ErrorPage/ErrorPage';
+import MovieDetails from 'pages/MoviesDetailsPage/components/MovieDetails/MovieDetails';
+import Loader from 'components/Loader/Loader';
+import ErrorPage from '../ErrorPage/ErrorPage';
 
 import { LocationProvider } from 'js/utils/LocationProvider/LocationProvider';
 import {
@@ -16,8 +15,10 @@ import {
 } from 'redux/slices/film/selectors';
 import { getSimilarMovies, getSingleMovie } from 'redux/slices/film/thunks';
 
-const Cast = lazy(() => import('components/Cast/Cast'));
-const Reviews = lazy(() => import('components/Reviews/Reviews'));
+const Cast = lazy(() => import('pages/MoviesDetailsPage/components/Cast/Cast'));
+const Reviews = lazy(() =>
+  import('pages/MoviesDetailsPage/components/Reviews/Reviews')
+);
 
 const MoviesDetailsPage = () => {
   const { mediaType, movieId } = useParams();
@@ -40,8 +41,10 @@ const MoviesDetailsPage = () => {
   if (error) {
     return <ErrorPage />;
   }
+
   return (
     <section>
+      {isFetching && <Loader />}
       <div className="container">
         {movieDetail && (
           <MovieDetails
