@@ -9,7 +9,9 @@ import MoviesPage from 'pages/MoviesPage/MoviesPage';
 import { useDispatch } from 'react-redux';
 import { getGenres } from 'redux/slices/genres/thunks';
 
-const MoviesDetailsPage = lazy(() => import('pages/MoviesDetailsPage'));
+const MoviesDetailsPage = lazy(() =>
+  import('pages/MoviesDetailsPage/MoviesDetailsPage')
+);
 
 export const App = () => {
   const dispatcher = useDispatch();

@@ -18,6 +18,7 @@ import { Autoplay } from 'swiper/modules';
 import MovieAPI from 'js/API_requests/MoviesAPI';
 import { useData } from 'js/useData/useData';
 import HeaderSlide from 'components/Slider/HeaderSlide/HeaderSlide';
+import Loader from 'components/Loader/Loader';
 
 const HomePage = () => {
   const [timeWindow, setTimeWindow] = useState('day');
@@ -56,6 +57,7 @@ const HomePage = () => {
   const moviesList = SortAPI.sortMovieByRating(trendMovies);
   return (
     <main>
+      {isFetching && <Loader />}
       {sliderList && (
         <Slider modules={[Autoplay]} slidesPerView={1} autoplay={true}>
           {sliderList?.map(film => {
