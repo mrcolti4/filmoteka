@@ -1,65 +1,60 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useSearch } from 'hooks/useSearch';
 import {
   selectMoviesData,
   selectMoviesError,
   selectMoviesIsFetching,
 } from 'redux/slices/film/selectors';
 import { getSearchMovies } from 'redux/slices/film/thunks';
-import { onPageLoad } from 'redux/slices/genres/slice';
-import { getGenresOptions } from './getGenresOptions';
 
 import { SortAPI } from 'js/utils/SortAPI/SortAPI';
-import { useSearch } from './useSearch';
+import {
+  genreParamKey,
+  mediaTypeParamKey,
+  pageParamKey,
+  searchParamKey,
+} from 'js/utils/consts';
 
 import MovieList from 'components/MovieList/MovieList';
-import MovieForm from './components/MovieForm/MovieForm';
-import ErrorPage from 'pages/ErrorPage/ErrorPage';
-import {
-  selectMovieGenres,
-  selectTvGenres,
-} from 'redux/slices/genres/selectors';
-import MoviePagination from './components/MoviePagination/MoviePagination';
+import MovieForm from '../../components/ui/form/MovieForm/MovieForm';
+import MoviePagination from '../../components/ui/form/MoviePagination/MoviePagination';
 import Loader from 'components/Loader/Loader';
+import ErrorPage from 'pages/ErrorPage/ErrorPage';
+import { useGenre } from 'hooks/useGenre';
+import { isNull } from 'js/utils/isNull/isNull';
 
 const MoviesPage = () => {
-  const { search, genre, page, mediaType } = useSearch();
+  const { search, genre, page, mediaType, searchParams, setSearchParams } =
+    useSearch();
+  const { genres, setDefaultFilters } = useGenre();
   const dispatcher = useDispatch();
   const data = useSelector(selectMoviesData);
   const isFetching = useSelector(selectMoviesIsFetching);
   const error = useSelector(selectMoviesError);
-  const movieGenre = useSelector(selectMovieGenres);
-  const tvGenre = useSelector(selectTvGenres);
+
+  function onSubmit({ search, genre, mediaType }) {
+    if (!search) {
+      console.log('not search');
+      return;
+    }
+    setSearchParams({
+      [mediaTypeParamKey]: mediaType,
+      [searchParamKey]: search,
+      [genreParamKey]: genre ? genre.map(item => item.value).join(',') : '',
+      [pageParamKey]: page ?? 1,
+    });
+  }
 
   useEffect(() => {
-    if (mediaType) dispatcher(getSearchMovies({ search, mediaType, page }));
+    if (mediaType) dispatcher(getSearchMovies(searchParams));
   }, [dispatcher, search, mediaType, page]);
 
   useEffect(() => {
-    const genres = {
-      movie: movieGenre,
-      tv: tvGenre,
-    };
-
-    const setDefaultFilters = data => {
-      if (!genre) return dispatcher(onPageLoad(null));
-
-      const options = getGenresOptions(data[mediaType]);
-      const genres = genre.split(',');
-      const choosenFilters = [];
-      for (let i = 0; i < genres.length; i++) {
-        const filter = options.filter(
-          option => option.value === Number(genres[i])
-        );
-        choosenFilters.push(...filter);
-      }
-      dispatcher(onPageLoad(choosenFilters));
-    };
-
-    if (genres.movie?.length > 0) {
+    if (!isNull(genres)) {
       setDefaultFilters(genres);
     }
-  }, [dispatcher, genre, mediaType, movieGenre, tvGenre]);
+  }, [genres]);
 
   const sortedList = SortAPI.sortMovieByGenres(genre, data);
   const moviesList = SortAPI.sortMovieByVoteCount(sortedList);
@@ -72,7 +67,7 @@ const MoviesPage = () => {
     <section className="movie-search">
       <div className="container">
         {isFetching && <Loader />}
-        <MovieForm />
+        <MovieForm isSearch onSubmit={onSubmit} />
         <MovieList
           movies={moviesList}
           isFetching={isFetching}

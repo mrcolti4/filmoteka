@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import {
+  getDiscoverMovies,
   getSearchMovies,
   getSimilarMovies,
   getSingleMovie,
@@ -8,7 +9,6 @@ import {
 import {
   handleMoviesFulfilled,
   handlePending,
-  handleRejected,
   handleSearchPending,
   handleSimilarMovieFulfilled,
   handleSingleMovieFulfilled,
@@ -20,8 +20,6 @@ const initialState = {
   movieDetail: null,
   similarMovies: null,
   recentlyWatched: [],
-  isFetching: false,
-  error: null,
   totalPages: 1,
 };
 
@@ -30,16 +28,16 @@ const filmSlice = createSlice({
   initialState,
   extraReducers: builder => {
     builder
+      .addCase(getSingleMovie.pending, handleSingleMoviePending)
+      .addCase(getSearchMovies.pending, handleSearchPending)
+      .addCase(getDiscoverMovies.pending, handleSearchPending)
       .addCase(getTrendMovies.fulfilled, handleMoviesFulfilled)
       .addCase(getSearchMovies.fulfilled, handleMoviesFulfilled)
-      .addCase(getSingleMovie.pending, handleSingleMoviePending)
       .addCase(getSingleMovie.fulfilled, handleSingleMovieFulfilled)
       .addCase(getSimilarMovies.fulfilled, handleSimilarMovieFulfilled)
-      .addCase(getSearchMovies.pending, handleSearchPending)
-      .addMatcher(action => action.type.endsWith('/pending'), handlePending)
-      .addMatcher(action => action.type.endsWith('/rejected'), handleRejected);
+      .addCase(getDiscoverMovies.fulfilled, handleMoviesFulfilled)
+      .addMatcher(action => action.type.endsWith('/pending'), handlePending);
   },
 });
 
-export const { setPage } = filmSlice.actions;
 export const filmReducer = filmSlice.reducer;

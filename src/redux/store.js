@@ -13,6 +13,7 @@ import storage from 'redux-persist/lib/storage';
 
 import { filmReducer } from './slices/film/slice';
 import { genresReducer } from './slices/genres/slice';
+import { rootReducer } from './slices/root/slice';
 
 const persistConfig = {
   key: 'root',
@@ -26,6 +27,7 @@ export const store = configureStore({
   reducer: {
     film: persistedFilm,
     genres: genresReducer,
+    root: rootReducer,
   },
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({

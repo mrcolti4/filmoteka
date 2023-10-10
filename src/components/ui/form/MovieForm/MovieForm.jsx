@@ -1,11 +1,4 @@
 import { useFormik } from 'formik';
-import {
-  genreParamKey,
-  mediaTypeParamKey,
-  pageParamKey,
-  searchParamKey,
-} from 'js/utils/consts';
-import { useSearch } from 'pages/MoviesPage/useSearch';
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import {
@@ -16,15 +9,16 @@ import {
 import SelectFilter from '../SelectFilter/SelectFilter';
 import { getGenresOptions } from 'pages/MoviesPage/getGenresOptions';
 import RadioButton from '../RadioButton/RadioButton';
+import { useSearch } from 'hooks/useSearch';
 
-const MovieForm = () => {
+const MovieForm = ({ isSearch, onSubmit }) => {
   const options = {
     movie: getGenresOptions(useSelector(selectMovieGenres)),
     tv: getGenresOptions(useSelector(selectTvGenres)),
   };
   const filter = useSelector(selectMovieFilter);
 
-  const { search, mediaType, page, setSearchParams } = useSearch();
+  const { search, mediaType } = useSearch();
   const { values, setFieldValue, handleChange, handleSubmit } = useFormik({
     initialValues: {
       search: search ?? '',
@@ -38,21 +32,10 @@ const MovieForm = () => {
     setFieldValue('genre', filter);
   }, [setFieldValue, filter]);
 
-  function onSubmit({ search, genre, mediaType }) {
-    if (!search) {
-      console.log('not search');
-      return;
-    }
-    setSearchParams({
-      [mediaTypeParamKey]: mediaType,
-      [searchParamKey]: search,
-      [genreParamKey]: genre ? genre.map(item => item.value).join(',') : '',
-      [pageParamKey]: page ?? 1,
-    });
-  }
-
-  const handleRadioButton = ({ target: { value } }) =>
+  const handleRadioButton = ({ target: { value } }) => {
     setFieldValue('mediaType', value);
+    setFieldValue('genre', '');
+  };
 
   return (
     <form
@@ -61,13 +44,15 @@ const MovieForm = () => {
         handleSubmit(e);
       }}
     >
-      <input
-        name="search"
-        type="text"
-        defaultValue={search || ''}
-        onChange={handleChange}
-        required
-      />
+      {isSearch ? (
+        <input
+          name="search"
+          type="text"
+          defaultValue={search || ''}
+          onChange={handleChange}
+          required
+        />
+      ) : null}
       <RadioButton
         onChange={handleRadioButton}
         value={'movie'}
