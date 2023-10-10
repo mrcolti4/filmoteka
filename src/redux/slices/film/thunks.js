@@ -17,7 +17,7 @@ export const getSearchMovies = createAsyncThunk(
   'film/getSearchMovies',
   async (params, thunkApi) => {
     try {
-      const data = await MovieAPI.getMoviesByQuery(...Object.values(params));
+      const data = await MovieAPI.getMoviesByQuery(params);
       return data;
     } catch (error) {
       return thunkApi.rejectWithValue(error.message);
@@ -58,6 +58,19 @@ export const getSimilarMovies = createAsyncThunk(
       return data;
     } catch (error) {
       thunkApi.rejectWithValue(error.message);
+    }
+  }
+);
+
+export const getDiscoverMovies = createAsyncThunk(
+  'film/getDiscover',
+  async (params, thunkApi) => {
+    try {
+      const data = await MovieAPI.getDiscoverMovies(params);
+
+      return data;
+    } catch (error) {
+      return thunkApi.rejectWithValue(error.message);
     }
   }
 );

@@ -18,6 +18,11 @@ export const Header = () => {
                 Movies
               </NavLink>
             </li>
+            <li>
+              <NavLink className={clsx(styled.header_link)} to="discover">
+                Discover
+              </NavLink>
+            </li>
           </ul>
         </div>
       </header>

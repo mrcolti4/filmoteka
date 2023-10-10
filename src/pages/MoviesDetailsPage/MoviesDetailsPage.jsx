@@ -22,6 +22,7 @@ const Reviews = lazy(() =>
 
 const MoviesDetailsPage = () => {
   const { mediaType, movieId } = useParams();
+  console.log(useParams());
   const location = useLocation();
 
   const backLinkHref = location.state?.from ?? '/movies';

@@ -12,6 +12,19 @@ const instance = axios.create({
 
 // Access-Control-Expose-Headers
 
+const getSearchParams = params => {
+  const urlParams = {};
+  let mediaType = '';
+  for (const param of params.entries()) {
+    if (param[0] === 'media_type') {
+      mediaType = param[1];
+    }
+    urlParams[param[0]] = param[1];
+  }
+
+  return { urlParams, mediaType };
+};
+
 export default class MovieAPI {
   static config = {
     params: {
@@ -24,19 +37,16 @@ export default class MovieAPI {
     return data;
   };
 
-  static getMoviesByQuery = async (title, mediaType, page) => {
-    const URL = `/search/${mediaType}`;
+  static getMoviesByQuery = async params => {
+    const { urlParams, mediaType } = getSearchParams(params);
+
     const config = {
-      params: {
-        query: title,
-        page,
-        api_key,
-      },
+      params: { api_key, ...urlParams },
       paramsSerializer: params => {
         return qs.stringify(params);
       },
     };
-    const { data } = await instance(URL, config);
+    const { data } = await instance(`/search/${mediaType}`, config);
 
     return { movies: data.results, totalPages: data.total_pages };
   };
@@ -82,5 +92,22 @@ export default class MovieAPI {
     } = await instance.get(`${mediaType}/${movieId}/similar`, this.config);
 
     return results;
+  };
+
+  static getDiscoverMovies = async params => {
+    const { urlParams, mediaType } = getSearchParams(params);
+
+    if (!mediaType) return { movies: null, totalPages: null };
+
+    const config = {
+      params: { api_key, ...urlParams },
+      paramsSerializer: params => {
+        return qs.stringify(params);
+      },
+    };
+
+    const { data } = await instance.get(`discover/${mediaType}`, config);
+
+    return { movies: data.results, totalPages: data.total_pages };
   };
 }
